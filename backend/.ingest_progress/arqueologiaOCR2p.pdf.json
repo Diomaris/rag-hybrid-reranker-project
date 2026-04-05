@@ -1,0 +1,34 @@
+{
+  "file": "arqueologiaOCR2p.pdf",
+  "pages_total": 1,
+  "pages_processed": 1,
+  "pages_with_text": 1,
+  "ocr_pages": 1,
+  "chunks_added": 2,
+  "ocr_preprocess_used": {
+    "deskew": 1,
+    "clahe": 1,
+    "deshadow": 1,
+    "denoise": 1,
+    "adaptive_th": 1
+  },
+  "last_update": "2026-02-21 21:22:25",
+  "params": {
+    "dpi": 150,
+    "lang": "spa+eng",
+    "psm": 3,
+    "oem": 1,
+    "deskew": true,
+    "clahe": true,
+    "deshadow": true,
+    "denoise": true,
+    "adaptive_th": true,
+    "gamma": null,
+    "batch": 256,
+    "max_chars": 1200,
+    "overlap": 150,
+    "collection": "kb_docs",
+    "enable_ocr": true,
+    "dedup_chunks": false
+  }
+}

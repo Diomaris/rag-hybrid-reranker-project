@@ -1,0 +1,38 @@
+{
+  "file": "arqueologia4pB.pdf",
+  "pages_total": 4,
+  "pages_processed": 4,
+  "pages_with_text": 4,
+  "ocr_pages": 0,
+  "chunks_added": 11,
+  "ocr_preprocess_used": {
+    "deskew": 0,
+    "clahe": 0,
+    "deshadow": 0,
+    "denoise": 0,
+    "adaptive_th": 0
+  },
+  "last_update": "2026-02-16 15:25:32",
+  "params": {
+    "dpi": 150,
+    "lang": "spa+eng",
+    "psm": 6,
+    "oem": 1,
+    "crop_top_pct": 0.08,
+    "crop_bottom_pct": 0.08,
+    "text_crop_top_pct": 0.08,
+    "text_crop_bottom_pct": 0.08,
+    "deskew": true,
+    "clahe": true,
+    "deshadow": true,
+    "denoise": true,
+    "adaptive_th": true,
+    "gamma": null,
+    "batch": 256,
+    "max_chars": 1200,
+    "overlap": 150,
+    "collection": "kb_docs",
+    "enable_ocr": true,
+    "dedup_chunks": false
+  }
+}

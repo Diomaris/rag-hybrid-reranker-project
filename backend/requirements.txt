@@ -1,0 +1,26 @@
+# API
+fastapi
+uvicorn
+pydantic
+httpx
+requests
+
+# Vector DB / RAG
+chromadb
+sentence-transformers
+rank-bm25
+
+# ML / OCR
+torch
+transformers
+pillow
+pytesseract
+opencv-python-headless
+numpy
+scikit-learn
+
+# PDF
+pymupdf
+
+# Watcher
+watchdog

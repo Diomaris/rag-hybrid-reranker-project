@@ -1,0 +1,34 @@
+{
+  "file": "152pPieB.pdf",
+  "pages_total": 152,
+  "pages_processed": 152,
+  "pages_with_text": 140,
+  "ocr_pages": 14,
+  "chunks_added": 373,
+  "ocr_preprocess_used": {
+    "deskew": 14,
+    "clahe": 14,
+    "deshadow": 14,
+    "denoise": 14,
+    "adaptive_th": 14
+  },
+  "last_update": "2026-02-21 21:54:37",
+  "params": {
+    "dpi": 150,
+    "lang": "spa+eng",
+    "psm": 3,
+    "oem": 1,
+    "deskew": true,
+    "clahe": true,
+    "deshadow": true,
+    "denoise": true,
+    "adaptive_th": true,
+    "gamma": null,
+    "batch": 256,
+    "max_chars": 1200,
+    "overlap": 150,
+    "collection": "kb_docs",
+    "enable_ocr": true,
+    "dedup_chunks": false
+  }
+}

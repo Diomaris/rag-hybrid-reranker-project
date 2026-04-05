@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: RAG Backend (Diomaris)
+  version: "1.0.0"
+servers:
+  - url: http://127.0.0.1:8088
+paths:
+  /retrieve:
+    post:
+      summary: Dense retrieval desde Chroma (devuelve contextos con [source p.page])
+      operationId: rag_retrieve
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query: { type: string }
+                top_k: { type: integer, default: 6, minimum: 1, maximum: 50 }
+              required: [query]
+      responses:
+        "200":
+          description: OK
+  /answer:
+    post:
+      summary: RAG + Gemini (usa contextos y devuelve texto redactado)
+      operationId: rag_answer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query: { type: string }
+                top_k: { type: integer, default: 6, minimum: 1, maximum: 50 }
+                model:  { type: string, default: "gemini-2.5-flash" }
+                temperature: { type: number, default: 0.3, minimum: 0, maximum: 1 }
+              required: [query]
+      responses:
+        "200":
+          description: OK

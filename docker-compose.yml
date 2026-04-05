@@ -1,0 +1,63 @@
+version: "3.9"
+
+services:
+
+  chroma:
+    image: chromadb/chroma:latest
+    container_name: chroma
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/.chroma
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    container_name: rag-backend
+    ports:
+      - "8088:8088"
+    environment:
+      - CHROMA_HOST=chroma
+      - CHROMA_PORT=8000
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - ENABLE_RERANKER=true
+    depends_on:
+      - chroma
+      - ollama
+    restart: unless-stopped
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    ports:
+      - "8080:8080"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - OPENAI_API_BASE_URL=http://rag-backend:8088
+      - OPENAI_API_KEY=dummy
+    depends_on:
+      - backend
+      - ollama
+    volumes:
+      - openwebui_data:/app/backend/data
+    restart: unless-stopped
+
+volumes:
+  chroma_data:
+  ollama_data:
+  openwebui_data:
+  
+backend:
+  build: ./backend
+  container_name: rag-backend
+  volumes:
+    - ./backend/docs:/app/docs #carpeta vigilado
