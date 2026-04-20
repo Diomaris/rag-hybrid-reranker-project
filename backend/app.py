@@ -48,8 +48,10 @@ CHROMA_PORT = int(os.getenv("CHROMA_PORT", "8000"))
 COLLECTION  = os.getenv("COLLECTION", "kb_docs")
 EMBED_MODEL = os.getenv("EMBED_MODEL", "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
 
-GEM_BASE = os.getenv("GEM_BASE", "https://generativelanguage.googleapis.com/v1beta/openai/")
-GEM_KEY = os.getenv("GEMINI_API_KEY") or os.getenv("GEM_KEY")
+GEM_BASE             = os.getenv("GEM_BASE", "https://generativelanguage.googleapis.com/v1beta/openai/")
+GEM_KEY              = os.getenv("GEMINI_API_KEY") or os.getenv("GEM_KEY")
+DEFAULT_TOP_K        = int(os.getenv("DEFAULT_TOP_K", "6"))
+DEFAULT_GEMINI_MODEL = os.getenv("DEFAULT_GEMINI_MODEL", "gemini-2.5-flash")
 if not GEM_KEY:
     raise RuntimeError("Falta GEMINI_API_KEY en el entorno")
     

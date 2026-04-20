@@ -54,4 +54,9 @@ services:
       - ollama
     restart: unless-stopped
     volumes:
-      - ./backend/docs:/app/docs
+      - openwebui_data:/app/backend/data
+      
+ volumes:
+  chroma_data:
+  ollama_data:
+  openwebui_data:

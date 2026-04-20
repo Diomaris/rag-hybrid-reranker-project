@@ -5,8 +5,6 @@ from pathlib import Path
 from config import settings
 import os
 
-docs_path = settings.DOCS_PATH
-
 
 try:
     from watchdog.observers import Observer
@@ -53,10 +51,10 @@ def run_ingest(pdf_path: Path) -> int:
     args = [
         PY, INGEST, str(pdf_path),
         "--dedup-chunks",
-        "--chroma-host", "localhost",
-        "--chroma-port", "8000",
-        "--collection", "kb_docs",
-        "--embed-model", "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+        "--chroma-host", settings.CHROMA_HOST,
+        "--chroma-port", str(settings.CHROMA_PORT),
+        "--collection", settings.COLLECTION,
+        "--embed-model", settings.EMBED_MODEL,
         "--max-chars", "1200", "--overlap", "150",
         # OCR opcional si lo necesitas por defecto:
         # "--enable-ocr", "--ocr-lang", "spa+eng", "--ocr-psm", "3", "--ocr-oem", "1"

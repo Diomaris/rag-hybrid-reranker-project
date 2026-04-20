@@ -54,10 +54,10 @@ OCR_LANG        = "spa+eng"
 OCR_OEM         = 1
 OCR_PSM         = 11
 
-CHROMA_HOST     = "localhost"
-CHROMA_PORT     = 8000
-COLLECTION      = "kb_docs"
-EMBED_MODEL     = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+CHROMA_HOST     = settings.CHROMA_HOST
+CHROMA_PORT     = settings.CHROMA_PORT
+COLLECTION      = settings.COLLECTION
+EMBED_MODEL     = settings.EMBED_MODEL
 MAX_CHARS       = 1200
 OVERLAP         = 150
 BATCH           = 256
@@ -1962,9 +1962,10 @@ def main(args):
         err("Faltan chromadb / sentence-transformers. Usa --selftest o --selftest-chunks.")
         return
 
-    client = chromadb.Client(
-    host=settings.CHROMA_HOST,
-    port=settings.CHROMA_PORT
+    client = chromadb.HttpClient(
+        host=args.chroma_host,
+        port=args.chroma_port,
+        settings=Settings(allow_reset=True)
     )
     collection = client.get_or_create_collection(
         name=args.collection, metadata={"hnsw:space": "cosine"}

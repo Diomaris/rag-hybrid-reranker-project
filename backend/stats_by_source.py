@@ -4,17 +4,19 @@ import chromadb
 from chromadb.config import Settings
 from config import settings
 
-client = chromadb.Client(
-    host=settings.CHROMA_HOST,
-    port=settings.CHROMA_PORT
-)
-
 if len(sys.argv) < 2:
     print("Uso: python stats_by_source.py <nombre_archivo_pdf>")
     sys.exit(1)
 
-FNAME = sys.argv[1]  # ej: arquitectura1.pdf
-col = client.get_or_create_collection(COLLECTION)
+FNAME = sys.argv[1]
+
+client = chromadb.HttpClient(
+    host=settings.CHROMA_HOST,
+    port=settings.CHROMA_PORT,
+    settings=Settings(allow_reset=True)
+)
+
+col = client.get_or_create_collection(settings.COLLECTION)
 
 # Chroma no tiene "count(where=...)" en todas las builds,
 # así que usamos get() filtrado y contamos ids.

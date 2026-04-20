@@ -3,9 +3,7 @@
 #   python query.py ".\docs\archivo.pdf" --show-last-tail --tail-len 220
 #   python query.py ".\docs\archivo.pdf" --only-page 3 --show-last-tail --tail-len 300
 
-import argparse, os, hashlib
-from collections import defaultdict
-from chromadb import HttpClient
+import chromadb
 from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer  # opcional: --ask
 from config import settings
@@ -18,8 +16,11 @@ client = chromadb.HttpClient(
 )
 
 
-def connect_collection(host="localhost", port=8000, collection="kb_docs"):
-    return client.get_or_create_collection(name=collection, metadata={"hnsw:space": "cosine"})
+def connect_collection(host=None, port=None, collection=None):
+    return client.get_or_create_collection(
+        name=collection or settings.COLLECTION,
+        metadata={"hnsw:space": "cosine"}
+    )
 
 def fetch_by_source(col, source_name: str):
     # Compatible con builds donde include no acepta "ids"

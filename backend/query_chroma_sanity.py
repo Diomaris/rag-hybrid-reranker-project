@@ -1,5 +1,5 @@
 # query_chroma_sanity.py
-from chromadb import HttpClient
+import chromadb
 from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer
 from config import settings
@@ -11,7 +11,7 @@ client = chromadb.HttpClient(
     settings=Settings(allow_reset=True)
 )
 
-col = client.get_or_create_collection(name="kb_docs", metadata={"hnsw:space": "cosine"})
+col = client.get_or_create_collection(name=settings.COLLECTION, metadata={"hnsw:space": "cosine"})
 
 embedder = SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")  # mismo modelo que en ingesta
 

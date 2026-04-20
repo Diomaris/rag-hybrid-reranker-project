@@ -5,10 +5,11 @@ from chromadb.config import Settings
 from collections import Counter
 from config import settings
 
+COLLECTION = settings.COLLECTION
+
 client = chromadb.HttpClient(
     host=settings.CHROMA_HOST,
     port=settings.CHROMA_PORT,
-    COLLECTION = settings.COLLECTION
     settings=Settings(allow_reset=True)
 )
 

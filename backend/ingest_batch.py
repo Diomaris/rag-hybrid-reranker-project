@@ -9,11 +9,15 @@ from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer
 from config import settings
 
+COLLECTION = settings.COLLECTION
+
 client = chromadb.HttpClient(
     host=settings.CHROMA_HOST,
     port=settings.CHROMA_PORT,
     settings=Settings(allow_reset=True)
 )
+
+# Tamaños de lote
 
 # Tamaños de lote (ajústalos si hace falta)
 MAX_CHARS   = 1200

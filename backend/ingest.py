@@ -10,6 +10,12 @@ CHROMA_HOST = settings.CHROMA_HOST
 CHROMA_PORT = settings.CHROMA_PORT
 COLLECTION  = settings.COLLECTION
 
+client = chromadb.HttpClient(
+    host=CHROMA_HOST,
+    port=CHROMA_PORT,
+    settings=Settings(allow_reset=True)
+)
+
 # Crear/obtener colección
 collection = client.get_or_create_collection(
     name=COLLECTION,

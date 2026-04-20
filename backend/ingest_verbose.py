@@ -9,6 +9,8 @@ from sentence_transformers import SentenceTransformer
 from config import settings
 
 
+COLLECTION = settings.COLLECTION
+
 client = chromadb.HttpClient(
     host=settings.CHROMA_HOST,
     port=settings.CHROMA_PORT,

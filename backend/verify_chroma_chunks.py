@@ -1,13 +1,12 @@
-# verify_chroma_chunks.py
-from chromadb import HttpClient
+import chromadb
 from chromadb.config import Settings
 from config import settings
 
-client = chromadb.Client(
+client = chromadb.HttpClient(
     host=settings.CHROMA_HOST,
-    port=settings.CHROMA_PORT
+    port=settings.CHROMA_PORT,
+    settings=Settings(allow_reset=True)
 )
-
 
 def get_collection():
     return client.get_or_create_collection(name="kb_docs", metadata={"hnsw:space": "cosine"})
