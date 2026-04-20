@@ -10,7 +10,7 @@ services:
     volumes:
       - chroma_data:/chroma/.chroma
     restart: unless-stopped
-
+   
   ollama:
     image: ollama/ollama:latest
     container_name: ollama
@@ -25,11 +25,16 @@ services:
     container_name: rag-backend
     ports:
       - "8088:8088"
+    env_file:
+      - .env
     environment:
       - CHROMA_HOST=chroma
       - CHROMA_PORT=8000
+      - DOCS_PATH=/app/docs
       - OLLAMA_BASE_URL=http://ollama:11434
       - ENABLE_RERANKER=true
+    volumes:
+      - ./backend/docs:/app/docs
     depends_on:
       - chroma
       - ollama
@@ -47,17 +52,6 @@ services:
     depends_on:
       - backend
       - ollama
-    volumes:
-      - openwebui_data:/app/backend/data
     restart: unless-stopped
-
-volumes:
-  chroma_data:
-  ollama_data:
-  openwebui_data:
-  
-backend:
-  build: ./backend
-  container_name: rag-backend
-  volumes:
-    - ./backend/docs:/app/docs #carpeta vigilado
+    volumes:
+      - ./backend/docs:/app/docs

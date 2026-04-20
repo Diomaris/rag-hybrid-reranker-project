@@ -7,11 +7,13 @@ from pypdf import PdfReader
 import chromadb
 from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer
+from config import settings
 
-# --- CONFIG ---
-CHROMA_HOST = "localhost"
-CHROMA_PORT = 8000
-COLLECTION  = "kb_docs"
+client = chromadb.HttpClient(
+    host=settings.CHROMA_HOST,
+    port=settings.CHROMA_PORT,
+    settings=Settings(allow_reset=True)
+)
 
 # Tamaños de lote (ajústalos si hace falta)
 MAX_CHARS   = 1200
@@ -90,11 +92,6 @@ def main(pdf_path: str):
         err("Ruta al PDF inválida.")
         return
 
-    # Cliente Chroma
-    client = chromadb.HttpClient(
-        host=CHROMA_HOST, port=CHROMA_PORT,
-        settings=Settings(allow_reset=True)
-    )
     collection = client.get_or_create_collection(
         name=COLLECTION, metadata={"hnsw:space": "cosine"}
     )

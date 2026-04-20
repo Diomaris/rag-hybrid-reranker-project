@@ -1,15 +1,13 @@
 # stats_overall.py
 import chromadb
 from chromadb.config import Settings
+from config import settings
 
-CHROMA_HOST = "localhost"
-CHROMA_PORT = 8000
-COLLECTION  = "kb_docs"
-
-client = chromadb.HttpClient(
-    host=CHROMA_HOST, port=CHROMA_PORT,
-    settings=Settings(allow_reset=True)
+client = chromadb.Client(
+    host=settings.CHROMA_HOST,
+    port=settings.CHROMA_PORT
 )
+
 col = client.get_or_create_collection(COLLECTION)
 
 print("Colección:", COLLECTION)

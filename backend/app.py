@@ -43,19 +43,16 @@ BM25 = None
 
 # ================== Config ==================
 load_dotenv()
-CHROMA_HOST = os.getenv("CHROMA_HOST", "localhost")
+CHROMA_HOST = os.getenv("CHROMA_HOST", "chroma")
 CHROMA_PORT = int(os.getenv("CHROMA_PORT", "8000"))
 COLLECTION  = os.getenv("COLLECTION", "kb_docs")
 EMBED_MODEL = os.getenv("EMBED_MODEL", "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
 
 GEM_BASE = os.getenv("GEM_BASE", "https://generativelanguage.googleapis.com/v1beta/openai/")
-GEM_KEY  = os.getenv("GEMINI_API_KEY", "AIzaSyDH7ib0ejDwxBTjiRVJ-udzQWdIJTljoIk")
 GEM_KEY = os.getenv("GEMINI_API_KEY") or os.getenv("GEM_KEY")
 if not GEM_KEY:
-    raise RuntimeError("Falta GEMINI_API_KEY/GEM_KEY en el entorno")
-DEFAULT_TOP_K        = int(os.getenv("DEFAULT_TOP_K", "6"))
-DEFAULT_GEMINI_MODEL = os.getenv("DEFAULT_GEMINI_MODEL", "gemini-2.5-flash")
-
+    raise RuntimeError("Falta GEMINI_API_KEY en el entorno")
+    
 if not GEM_BASE.endswith("/"):
     raise RuntimeError("GEM_BASE debe terminar con '/'. Ej: https://.../v1beta/openai/")
 
@@ -621,4 +618,8 @@ def rerank_test(req: RerankTestRequest):
 
 
 #Arrancar el watcher automáticamente en docker
-threading.Thread(target=start_watcher, daemon=True).start()
+#threading.Thread(target=start_watcher, daemon=True).start()
+ENABLE_WATCHER = os.getenv("ENABLE_WATCHER", "false").lower() == "true"
+
+if ENABLE_WATCHER:
+    threading.Thread(target=start_watcher, daemon=True).start()

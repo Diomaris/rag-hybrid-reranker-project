@@ -21,4 +21,10 @@ def start_watcher():
     observer = Observer()
     observer.schedule(DocHandler(), DOCS_DIR, recursive=False)
     observer.start()
-    print(f"[WATCHER
+    print(f"[WATCHER] Vigilando: {DOCS_DIR}")
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+    observer.join()

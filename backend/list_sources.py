@@ -3,9 +3,14 @@ import json
 import chromadb
 from chromadb.config import Settings
 from collections import Counter
+from config import settings
 
-HOST, PORT = "localhost", 8000
-COLLECTION = "kb_docs"  # cámbialo si tu app.py usa otro nombre
+client = chromadb.HttpClient(
+    host=settings.CHROMA_HOST,
+    port=settings.CHROMA_PORT,
+    COLLECTION = settings.COLLECTION
+    settings=Settings(allow_reset=True)
+)
 
 def iter_metadatas(col, batch=2000):
     off = 0
@@ -20,7 +25,6 @@ def iter_metadatas(col, batch=2000):
         off += batch
 
 def main():
-    client = chromadb.HttpClient(host=HOST, port=PORT, settings=Settings(allow_reset=True))
     col = client.get_or_create_collection(COLLECTION)
     c = Counter()
     total = 0

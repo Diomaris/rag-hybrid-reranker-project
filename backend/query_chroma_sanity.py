@@ -2,8 +2,15 @@
 from chromadb import HttpClient
 from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer
+from config import settings
 
-client = HttpClient(host="localhost", port=8000, settings=Settings(allow_reset=True))
+
+client = chromadb.HttpClient(
+    host=settings.CHROMA_HOST,
+    port=settings.CHROMA_PORT,
+    settings=Settings(allow_reset=True)
+)
+
 col = client.get_or_create_collection(name="kb_docs", metadata={"hnsw:space": "cosine"})
 
 embedder = SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")  # mismo modelo que en ingesta

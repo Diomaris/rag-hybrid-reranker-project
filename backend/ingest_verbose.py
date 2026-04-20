@@ -6,11 +6,15 @@ from pypdf import PdfReader
 import chromadb
 from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer
+from config import settings
 
-# --- CONFIG ---
-CHROMA_HOST = "localhost"
-CHROMA_PORT = 8000
-COLLECTION  = "kb_docs"
+
+client = chromadb.HttpClient(
+    host=settings.CHROMA_HOST,
+    port=settings.CHROMA_PORT,
+    settings=Settings(allow_reset=True)
+)
+
 
 def info(msg: str):
     print(f"[INFO] {msg}")
@@ -70,10 +74,6 @@ def main(pdf_path: str):
         return
 
     info("Conectando a Chroma...")
-    client = chromadb.HttpClient(
-        host=CHROMA_HOST, port=CHROMA_PORT,
-        settings=Settings(allow_reset=True)
-    )
 
     # heartbeat rápido (algunas builds exponen v2; si falla, no es crítico)
     try:

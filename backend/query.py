@@ -8,9 +8,17 @@ from collections import defaultdict
 from chromadb import HttpClient
 from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer  # opcional: --ask
+from config import settings
+
+
+client = chromadb.HttpClient(
+    host=settings.CHROMA_HOST,
+    port=settings.CHROMA_PORT,
+    settings=Settings(allow_reset=True)
+)
+
 
 def connect_collection(host="localhost", port=8000, collection="kb_docs"):
-    client = HttpClient(host=host, port=port, settings=Settings(allow_reset=True))
     return client.get_or_create_collection(name=collection, metadata={"hnsw:space": "cosine"})
 
 def fetch_by_source(col, source_name: str):

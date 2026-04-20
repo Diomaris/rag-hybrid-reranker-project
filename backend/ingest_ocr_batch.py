@@ -1,52 +1,10 @@
 # -*- coding: utf-8 -*-
-"""
-ingest_ocr_batch_enhanced.py — v4.9 (Diomaris)
-================================================
-MEJORAS respecto a v4.8:
-
-  7. PREPROCESADO DE ILUMINACIÓN AVANZADO
-     - Filtro homomórfico para corregir iluminación irregular (páginas con sombra,
-       luz lateral, fotocopiadora defectuosa).
-     - Retinex simplificado (single-scale) que normaliza la reflectancia local.
-     - CLAHE adaptativo con tamaño de tile dinámico según resolución de imagen.
-     - Detección automática de fondo oscuro (inversión de escaneado).
-
-  8. CORRECCIÓN DE ORIENTACIÓN ROBUSTA
-     - Rotación cuádruple (0/90/180/270°) con evaluación de score de texto.
-     - Detección por Hough Lines cuando OSD falla (común en páginas con poco texto).
-     - Fallback a rotación por minAreaRect solo si los anteriores no convergen.
-     - Score de orientación basado en proporción de palabras válidas del léxico.
-
-  9. DETECCIÓN Y ADAPTACIÓN DE TIPOGRAFÍA
-     - Clasificación automática: serif, sans-serif, script/cursiva, bold condensado.
-     - Ajuste dinámico de PSM según tipo de letra detectado.
-     - Parámetros Tesseract específicos para fuentes problemáticas (textcleaner).
-     - Umbrales de binarización diferenciados por tipo de fuente.
-
- 10. FILTRO DE LÍNEAS BASURA REFORZADO
-     - Detector de artefactos por densidad consonántica (líneas tipo "MBM Mem MC ect").
-     - Score de confianza por línea: ratio palabras válidas / total tokens.
-     - Eliminación de líneas con score < umbral configurable (--garbage-line-thr).
-     - Preserva líneas con código, números o contenido estructurado.
-
- 11. PIPELINE FALLBACK INTELIGENTE
-     - Si el texto resultante sigue siendo garbage (ratio > umbral), reintenta con:
-       preset "script" (para cursivas), preset "bold" (para negrita condensada),
-       y modo de binarización alternativo (Sauvola).
-     - El mejor resultado entre todos los intentos se selecciona automáticamente.
-
-MEJORAS heredadas de v4.8 (se mantienen todas).
-
-Requisitos:
-  pip install pymupdf pillow pytesseract opencv-python-headless numpy scikit-learn
-  pip install chromadb sentence-transformers
-  pip install paddlepaddle paddleocr   (opcional)
-"""
 
 import os, sys, re, gc, time, hashlib, argparse
 from pathlib import Path
 from collections import defaultdict
 from typing import Tuple, Iterable, List, Optional, Dict, Any
+from config import settings
 
 import fitz
 from PIL import Image
@@ -2004,9 +1962,9 @@ def main(args):
         err("Faltan chromadb / sentence-transformers. Usa --selftest o --selftest-chunks.")
         return
 
-    client = chromadb.HttpClient(
-        host=args.chroma_host, port=args.chroma_port,
-        settings=Settings(allow_reset=True)
+    client = chromadb.Client(
+    host=settings.CHROMA_HOST,
+    port=settings.CHROMA_PORT
     )
     collection = client.get_or_create_collection(
         name=args.collection, metadata={"hnsw:space": "cosine"}

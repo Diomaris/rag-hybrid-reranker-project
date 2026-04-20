@@ -2,20 +2,18 @@
 import sys
 import chromadb
 from chromadb.config import Settings
+from config import settings
+
+client = chromadb.Client(
+    host=settings.CHROMA_HOST,
+    port=settings.CHROMA_PORT
+)
 
 if len(sys.argv) < 2:
     print("Uso: python stats_by_source.py <nombre_archivo_pdf>")
     sys.exit(1)
 
 FNAME = sys.argv[1]  # ej: arquitectura1.pdf
-CHROMA_HOST = "localhost"
-CHROMA_PORT = 8000
-COLLECTION  = "kb_docs"
-
-client = chromadb.HttpClient(
-    host=CHROMA_HOST, port=CHROMA_PORT,
-    settings=Settings(allow_reset=True)
-)
 col = client.get_or_create_collection(COLLECTION)
 
 # Chroma no tiene "count(where=...)" en todas las builds,

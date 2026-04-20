@@ -24,3 +24,5 @@ pymupdf
 
 # Watcher
 watchdog
+
+python-multipart

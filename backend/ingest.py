@@ -3,18 +3,12 @@ from pypdf import PdfReader
 import chromadb
 from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer
+from config import settings
 
-# --- CONFIG ---
-CHROMA_HOST = "localhost"
-CHROMA_PORT = 8000
-COLLECTION = "kb_docs"
 
-# Cliente Chroma (server mode)
-client = chromadb.HttpClient(
-    host=CHROMA_HOST,
-    port=CHROMA_PORT,
-    settings=Settings(allow_reset=True)
-)
+CHROMA_HOST = settings.CHROMA_HOST
+CHROMA_PORT = settings.CHROMA_PORT
+COLLECTION  = settings.COLLECTION
 
 # Crear/obtener colección
 collection = client.get_or_create_collection(

@@ -2,6 +2,11 @@
 # Monitorea C:\RAG_Project\backend\docs y lanza ingestas incrementales sin duplicados.
 import hashlib, json, os, queue, signal, subprocess, sys, threading, time
 from pathlib import Path
+from config import settings
+import os
+
+docs_path = settings.DOCS_PATH
+
 
 try:
     from watchdog.observers import Observer
@@ -10,12 +15,12 @@ except ImportError:
     print("[ERROR] Falta 'watchdog'. Instala: pip install watchdog")
     sys.exit(1)
 
-ROOT     = Path(r"C:\RAG_Project")
-BACKEND  = ROOT / "backend"
-DOCS     = BACKEND / "docs"
+BACKEND  = Path("/app")
+DOCS     = Path(settings.DOCS_PATH)
 STATE    = BACKEND / "ingest_state.json"
-PY       = str((ROOT / "rag_env" / "Scripts" / "python.exe"))
-INGEST   = str(BACKEND / "ingest_ocr_batch_enhanced.py")
+PY       = "python"
+INGEST   = str(BACKEND / "ingest_ocr_batch.py")
+
 
 # Backend FastAPI para trigger de BM25
 API_BASE = "http://127.0.0.1:8088"
