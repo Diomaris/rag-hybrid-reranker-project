@@ -56,7 +56,7 @@ services:
     volumes:
       - openwebui_data:/app/backend/data
       
- volumes:
+volumes:
   chroma_data:
   ollama_data:
   openwebui_data:
