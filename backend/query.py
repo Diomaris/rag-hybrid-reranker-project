@@ -7,6 +7,9 @@ import chromadb
 from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer  # opcional: --ask
 from config import settings
+import argparse
+import os
+from collections import defaultdict
 
 
 client = chromadb.HttpClient(
